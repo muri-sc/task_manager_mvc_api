@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { Request, Response } from "express"
+import * as taskController from "../controllers/task.controller"
 
 const router = Router()
 
