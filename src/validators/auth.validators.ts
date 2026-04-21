@@ -14,7 +14,7 @@ const createUserSchema = z.object({
 
 const loginUserSchema = z.object({
     email: z.email().max(255),
-    password: z.string().min(8).max(255)
+    password: z.string().max(255)
 })
 
 type ICreateUserSchema = z.infer<typeof createUserSchema>

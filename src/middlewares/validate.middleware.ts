@@ -19,9 +19,10 @@ export default function validate(schema: IValidationSchema) {
             if (schema.query) req.query = schema.query.parse(req.query) as any
 
             return next()
+
         } catch (err: unknown) {
             if (err instanceof ZodError) {
-                return res.status(400).json({ message: "Invalid data request", error: err })
+                return res.status(400).json({ message: "Invalid data request", error: err.message })
             }
             return res.status(500).json({ message: "Internal server error" })
         }
