@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express"
 import { ZodType, ZodError } from "zod"
 
-type IValidationSchema = {
+type ValidationDTO = {
     body?: ZodType
     params?: ZodType
     query?: ZodType
 }
 
-export default function validate(schema: IValidationSchema) {
+export default function validate(schema: ValidationDTO) {
     return (
         req: Request,
         res: Response,

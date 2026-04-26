@@ -5,7 +5,7 @@ export {
     comparePassword
 }
 
-const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS)
 
 async function hashPassword(password: string) {
     const hash = await bcrypt.hash(password, SALT_ROUNDS)

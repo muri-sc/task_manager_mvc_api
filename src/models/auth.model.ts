@@ -1,18 +1,21 @@
+import { create } from "node:domain"
 import pool from "../database/connection"
-import { hashPassword } from "../utils/hash"
+import { hashPassword, comparePassword } from "../utils/hash"
+import { createToken } from "../utils/token"
 
 export {
-    createUser
+    createUser,
+    loginUser
 }
 
 async function findUserByEmail(email: string) {
     const query = `
-    SELECT id FROM users WHERE email = $1
+    SELECT * FROM users WHERE email = $1
     `
     const values = [email]
 
-    const data = await pool.query(query, values)
-    return data.rows[0]
+    const result = await pool.query(query, values)
+    return result.rows[0]
 }
 
 async function createUser(email: string, password: string) {
@@ -22,10 +25,27 @@ async function createUser(email: string, password: string) {
     const hash = await hashPassword(password)
 
     const query = `
-    INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id
+    INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email
     `
     const values = [email, hash]
 
-    const data = await pool.query(query, values)
-    return data.rows[0]
+    const result = await pool.query(query, values)
+    return result.rows[0]
+}
+
+async function loginUser(email: string, password: string) {
+    const user = await findUserByEmail(email)
+    if (!user) throw new Error("Invalid email or password")
+
+    const isMatch = await comparePassword(password, user.password)
+    if (!isMatch) throw new Error("Invalid email or password")
+
+    const token = createToken(user.id)
+    return {
+        token: token,
+        user : {
+            id: user.id,
+            email: user.email
+        }
+    }
 }
