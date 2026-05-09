@@ -33,7 +33,7 @@ async function loginUserHandler(
         const { email, password } = req.body
         const data = await authModel.loginUser(email, password)
 
-        return res.status(200).json({ message: "Sucessful login", data })
+        return res.status(200).json({ message: "Sucessful login", data: data })
 
     } catch (err: unknown) {
         if (err instanceof Error) {

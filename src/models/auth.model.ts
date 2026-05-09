@@ -1,4 +1,3 @@
-import { create } from "node:domain"
 import pool from "../database/connection"
 import { hashPassword, comparePassword } from "../utils/hash"
 import { createToken } from "../utils/token"
@@ -43,7 +42,7 @@ async function loginUser(email: string, password: string) {
     const token = createToken(user.id)
     return {
         token: token,
-        user : {
+        user: {
             id: user.id,
             email: user.email
         }
