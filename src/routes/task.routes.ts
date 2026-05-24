@@ -1,12 +1,21 @@
 import { Router } from "express"
-import { Request, Response } from "express"
 import * as taskController from "../controllers/task.controller"
 import isAuthenticated from "../middlewares/auth.middleware"
+import validate from "../middlewares/validate.middleware"
+import { createTaskSchema, deleteTaskSchema } from "../validators/task.validators"
 
 const router = Router()
 
-router.get("/test",
+router.post("/create",
     isAuthenticated,
-    (req: Request, res: Response) => { res.json({ message: "Ok" }) })
+    validate({ body: createTaskSchema }),
+    taskController.createTaskHandler
+)
+
+router.delete("/:id",
+    isAuthenticated,
+    validate({ params: deleteTaskSchema }),
+    taskController.deleteTaskHandler
+)
 
 export default router
