@@ -2,9 +2,11 @@ import { z } from "zod"
 
 export {
     createTaskSchema,
-    deleteTaskSchema,
     CreateTaskDTO,
-    DeleteTaskDTO
+    updateTaskParamsSchema,
+    updateTaskSchema,
+    UpdateTaskDTO,
+    deleteTaskParamsSchema
 }
 
 const createTaskSchema = z.object({
@@ -13,10 +15,21 @@ const createTaskSchema = z.object({
     .max(255)
 })
 
-const deleteTaskSchema = z.object({
+const updateTaskParamsSchema = z.object({
+    id: z
+    .coerce.number()
+})
+
+const updateTaskSchema = z.object({
+    title: z
+    .string()
+    .max(255)
+})
+
+const deleteTaskParamsSchema = z.object({
     id: z
     .coerce.number()
 })
 
 type CreateTaskDTO = z.infer<typeof createTaskSchema>
-type DeleteTaskDTO = z.infer<typeof deleteTaskSchema>
+type UpdateTaskDTO = z.infer<typeof updateTaskSchema>

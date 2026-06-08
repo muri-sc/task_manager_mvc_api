@@ -2,6 +2,7 @@ import pool from "../database/connection"
 
 export {
     createTask,
+    updateTask,
     deleteTask
 }
 
@@ -17,11 +18,26 @@ async function findTaskById(id: number) {
 
 async function createTask(title: string, userId: number) {
     const query = `
-    INSERT INTO tasks (title, user_id) VALUES ($1, $2) RETURNING id, title, created_at
+    INSERT INTO tasks (title, user_id) VALUES ($1, $2) RETURNING id, title, created_at, updated_at
     `
     const values = [title, userId]
 
     const result = await pool.query(query, values)
+    return result.rows[0]
+}
+
+async function updateTask(title: string, id: number, userId: number) {
+    const taskExists = await findTaskById(id)
+    if (!taskExists) throw new Error("Task not found")
+
+    const query = `
+    UPDATE tasks SET title = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 AND user_id = $3 RETURNING id, title, created_at, updated_at
+    `
+    const values = [title, id, userId]
+
+    const result = await pool.query(query, values)
+    if (result.rowCount === 0) throw new Error("Unauthorized")
+
     return result.rows[0]
 }
 

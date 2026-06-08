@@ -2,7 +2,7 @@ import { Router } from "express"
 import * as taskController from "../controllers/task.controller"
 import isAuthenticated from "../middlewares/auth.middleware"
 import validate from "../middlewares/validate.middleware"
-import { createTaskSchema, deleteTaskSchema } from "../validators/task.validators"
+import { createTaskSchema, updateTaskParamsSchema, updateTaskSchema, deleteTaskParamsSchema } from "../validators/task.validators"
 
 const router = Router()
 
@@ -12,9 +12,15 @@ router.post("/create",
     taskController.createTaskHandler
 )
 
+router.put("/update/:id",
+    isAuthenticated,
+    validate({ params: updateTaskParamsSchema, body: updateTaskSchema }),
+    taskController.updateTaskHandler
+)
+
 router.delete("/:id",
     isAuthenticated,
-    validate({ params: deleteTaskSchema }),
+    validate({ params: deleteTaskParamsSchema }),
     taskController.deleteTaskHandler
 )
 
