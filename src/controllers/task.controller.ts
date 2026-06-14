@@ -59,7 +59,7 @@ async function deleteTaskHandler(
 
         await taskModel.deleteTask(id, userId)
 
-        return res.status(204).json()
+        return res.status(204).send()
 
     } catch (err: unknown) {
         if (err instanceof Error) {
