@@ -1,15 +1,8 @@
 import { z } from "zod"
 
-export {
-    createUserSchema,
-    loginUserSchema,
-    CreateUserDTO,
-    LoginUserDTO,
-}
-
 const noSpaces = (text: string) => !text.includes(" ")
 
-const createUserSchema = z.object({
+export const createUserSchema = z.object({
     email: z
         .email()
         .max(255)
@@ -25,7 +18,7 @@ const createUserSchema = z.object({
         )
 })
 
-const loginUserSchema = z.object({
+export const loginUserSchema = z.object({
     email: z
         .email()
         .max(255),
@@ -34,5 +27,5 @@ const loginUserSchema = z.object({
         .max(255)
 })
 
-type CreateUserDTO = z.infer<typeof createUserSchema>
-type LoginUserDTO = z.infer<typeof loginUserSchema>
+export type CreateUserDTO = z.infer<typeof createUserSchema>
+export type LoginUserDTO = z.infer<typeof loginUserSchema>

@@ -10,61 +10,37 @@ export {
 
 async function createTaskHandler(
     req: Request<{}, {}, CreateTaskDTO>,
-    res: Response<{}>,
+    res: Response
 ) {
-    try {
-        const { title } = req.body
-        const userId = (req as any).user.id
+    const { title } = req.body
+    const userId = (req as any).user.id
 
-        const data = await taskModel.createTask(title, userId)
+    const data = await taskModel.createTask(title, userId)
 
-        return res.status(201).json({ message: "Task created", data: { task: data } })
-
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            return res.status(400).json({ message: "Invalid data request", error: err.message })
-        }
-        return res.status(500).json({ message: "Internal server error" })
-    }
+    return res.status(201).json({ message: "Task created", data: data })
 }
 
 async function updateTaskHandler(
     req: Request<{ id: string }, {}, UpdateTaskDTO>,
-    res: Response<{}>,
+    res: Response
 ) {
-    try {
-        const { title } = req.body
-        const { id } = updateTaskParamsSchema.parse(req.params)
-        const userId = (req as any).user.id
+    const { title } = req.body
+    const { id } = updateTaskParamsSchema.parse(req.params)
+    const userId = (req as any).user.id
 
-        const data = await taskModel.updateTask(title, id, userId)
+    const data = await taskModel.updateTask(title, id, userId)
 
-        return res.status(200).json({ message: "Task updated", data: { task: data } })
-
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            return res.status(400).json({ message: "Invalid data request", error: err.message })
-        }
-        return res.status(500).json({ message: "Internal server error" })
-    }
+    return res.status(200).json({ message: "Task updated", data: data })
 }
 
 async function deleteTaskHandler(
     req: Request<{ id: string }, {}, {}>,
-    res: Response<{}>,
+    res: Response
 ) {
-    try {
-        const { id } = deleteTaskParamsSchema.parse(req.params)
-        const userId = (req as any).user.id
+    const { id } = deleteTaskParamsSchema.parse(req.params)
+    const userId = (req as any).user.id
 
-        await taskModel.deleteTask(id, userId)
+    await taskModel.deleteTask(id, userId)
 
-        return res.status(204).send()
-
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            return res.status(400).json({ message: "Invalid data request", error: err.message })
-        }
-        return res.status(500).json({ message: "Internal server error" })
-    }
+    return res.status(204).send()
 }

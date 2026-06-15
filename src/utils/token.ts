@@ -23,10 +23,6 @@ function createToken(id: number) {
 }
 
 function validateToken(token: string) {
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET)
-        return decoded
-    } catch (err) {
-        throw new Error("Invalid or not provided token")
-    }
+    const decoded = jwt.verify(token, JWT_SECRET)
+    return decoded
 }
