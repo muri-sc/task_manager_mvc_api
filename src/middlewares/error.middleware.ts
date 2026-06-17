@@ -42,6 +42,10 @@ export default function errorHandler(
                 return res.status(401).json({
                     message: "Invalid email or password"
                 })
+            case "USER_NOT_FOUND":
+                return res.status(404).json({
+                    message: "User not found"
+                })
             case "TASK_NOT_FOUND":
                 return res.status(404).json({
                     message: "Task not found"

@@ -15,7 +15,6 @@ async function createUserHandler(
     const data = await authModel.createUser(email, password)
 
     return res.status(201).json({ message: "User created", data: data })
-
 }
 
 async function loginUserHandler(
