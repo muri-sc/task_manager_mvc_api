@@ -4,7 +4,7 @@ import isAuthenticated from "../middlewares/auth.middleware"
 
 const router = Router()
 
-router.delete("/delete",
+router.delete("/",
     isAuthenticated,
     userController.deleteUserHandler
 )

@@ -6,13 +6,13 @@ import { createTaskSchema, updateTaskParamsSchema, updateTaskSchema, deleteTaskP
 
 const router = Router()
 
-router.post("/create",
+router.post("/",
     isAuthenticated,
     validate({ body: createTaskSchema }),
     taskController.createTaskHandler
 )
 
-router.put("/update/:id",
+router.put("/:id",
     isAuthenticated,
     validate({ params: updateTaskParamsSchema, body: updateTaskSchema }),
     taskController.updateTaskHandler

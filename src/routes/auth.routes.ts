@@ -10,7 +10,7 @@ router.post("/register",
     authController.createUserHandler
 )
 
-router.post("/login",
+router.post("/",
     validate({ body: loginUserSchema }),
     authController.loginUserHandler
 )
